@@ -10,15 +10,6 @@ import scala.collection.mutable.ArrayBuffer
 import scala.collection._
 import scala.reflect.ClassTag
 
-class Simple() extends Module {
-  val io = IO(new Bundle {
-    val in = Input(UInt(2.W))
-    val out = Output(UInt(2.W))
-  })
-
-  io.out := !io.in
-}
-
 class ClonePorts (elts: Data*) extends Record {
     val elements = ListMap(elts.map(d => d.instanceName -> chiselTypeOf(d)): _*)
     def apply(field: String) = elements(field)
@@ -62,9 +53,9 @@ class Precinct(val modules: Seq[() => BaseModule]) extends MultiIOModule {
   val uniqueRecords = modIORecords.length
   println(uniqueRecords)
 
-  var io = IO(MixedVec(modIORecords))
+  var iosInner = IO(MixedVec(modIORecords))
 
-  val tlIos = io.map { case (toplevelRecord) => {
+  val tlIos = iosInner.map { case (toplevelRecord) => {
       (toplevelRecord.elements.values)}}
 
   val ios = mods.map { case (module) => {
@@ -74,57 +65,28 @@ class Precinct(val modules: Seq[() => BaseModule]) extends MultiIOModule {
   val module1Ios = ios(1).toSeq
   val theseIos = tlIos(0).toSeq
 
+  val boe = Module(new BOE)
+
+  val io = IO(new Bundle {
+    val ready = Output(Bool())
+  })
+
+  io.ready := boe.io.valid
+
   for (i <- 0 until theseIos.length) {
     if (DataMirror.directionOf(module0Ios(i)).toString() == "Input") {
       module0Ios(i) := theseIos(i)
       module1Ios(i) := theseIos(i)
     }
     else {
-      theseIos(i) := module0Ios(i)
+      boe.io.in1 := module0Ios(i)
+      boe.io.in2 := module1Ios(i)
+      theseIos(i) := boe.io.out
     }
   }
 }
 
-
-
-
-// class Precinct(block: => Simple) extends Module {
-//   val io = IO(new Bundle {
-//     val in = Input(UInt(2.W))
-//     val out = Output(UInt(2.W))
-//   })
-
-//   val citizen1 = block
-//   val citizen2 = block
-
-//   citizen1.io.in := io.in
-//   citizen2.io.in := io.in
-
-//   val board = Module(new BOE())
-
-//   board.io.in1 := citizen1.io.out
-//   board.io.in2 := citizen2.io.out
-
-//   io.out := board.io.out
-// }
-
-
-// object InstantiateAndConnectDriver extends App {
-//   chisel3.Driver.execute(Array("--target-dir", "generated"), () => new InstantiateAndConnect(Seq(
-//           () => new Multiplier,
-//           () => new Multiplier
-//       ))
-//   )
-// }
-
-object withVoting {  // scalastyle:ignore object.name
-  /** Creates a new Clock and Reset scope
-    *
-    * @param clock the new implicit Clock
-    * @param reset the new implicit Reset
-    * @param block the block of code to run with new implicit Clock and Reset
-    * @return the result of the block
-    */
+object withVoting {
   def apply[T <: BaseModule](block: => T): Precinct = {
 
     val res = Module(
@@ -143,60 +105,14 @@ class BOE() extends Module {
     val in1 = Input(UInt(2.W))
     val in2 = Input(UInt(2.W))
     val out = Output(UInt(2.W))
+    val valid = Output(Bool())
   })
+  when (io.in1 === io.in2) {
+    io.valid := true.B
+  }
+  .otherwise {
+    io.valid := false.B
+  }
 
   io.out := io.in1
 }
-
-class Tes() extends Module {
-  val io = IO(new Bundle {
-    val in = Input(UInt(2.W))
-    val out = Output(UInt(2.W))
-  })
-
-  val inst = withVoting{new Simple}
-
-  // println(DataMirror.modulePorts(Module(new Simple)).map(_._2))
-
-  inst.theseIos(1) := io.in
-  io.out := inst.theseIos(0)
-}
-
-object GenExamp extends App {
-  chisel3.Driver.execute(Array("--target-dir", "generated"), () => new Tes())
-  // val yer = Module(new Tes)
-  // println(ClassTag(yer.getClass()))
-}
-
-/**
-  * Compute GCD using subtraction method.
-  * Subtracts the smaller from the larger until register y is zero.
-  * value in register x is then the GCD
-  */
-// class BOE(citizens : Module) extends Module {
-//   val io = IO(new Bundle {
-//   	val muxAry = (0 until ports).map(x => Module(new FooBar(args))).toList // store the list in muxAry
-//     val value1        = Input(UInt(16.W))
-//   })
-
-//   val citizen1 = citizens()
-
-//   withClockAndReset
-
-
-
-// muxAry(0).io.out := muxAry(1).io.in // use it however you want
-//   val x  = Reg(UInt())
-//   val y  = Reg(UInt())
-
-//   when(x > y) { x := x - y }
-//     .otherwise { y := y - x }
-
-//   when(io.loadingValues) {
-//     x := io.value1
-//     y := io.value2
-//   }
-
-//   io.outputGCD := x
-//   io.outputValid := y === 0.U
-// }

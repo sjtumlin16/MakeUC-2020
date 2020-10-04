@@ -2,6 +2,6 @@ default:
 	sbt run
 
 wave: default
-	cd generated; iverilog -o Tes_tb Tes_tb.v
-	cd generated; vvp Tes_tb
-	cd generated; gtkwave test.vcd
+	cd generated; iverilog -o Demo_tb Demo_tb.v
+	cd generated; vvp Demo_tb
+	cd generated; gtkwave wav.vcd
