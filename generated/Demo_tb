@@ -1,0 +1,100 @@
+#! /usr/bin/vvp
+:ivl_version "10.3 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x556930933450 .scope module, "Demo_tb" "Demo_tb" 2 3;
+ .timescale 0 0;
+v0x55693095e080_0 .var "clock", 0 0;
+v0x55693095e140_0 .var "io_in", 1 0;
+v0x55693095e210_0 .net "io_out", 1 0, L_0x55693095ef00;  1 drivers
+v0x55693095e310_0 .net "io_valid", 0 0, L_0x55693095efb0;  1 drivers
+v0x55693095e3e0_0 .var "reset", 0 0;
+S_0x556930932640 .scope module, "dut" "Demo" 2 10, 3 50 0, S_0x556930933450;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clock"
+    .port_info 1 /INPUT 1 "reset"
+    .port_info 2 /INPUT 2 "io_in"
+    .port_info 3 /OUTPUT 2 "io_out"
+    .port_info 4 /OUTPUT 1 "io_valid"
+L_0x55693095ef00 .functor BUFZ 2, L_0x55693095ea70, C4<00>, C4<00>, C4<00>;
+L_0x55693095efb0 .functor BUFZ 1, L_0x55693095eb70, C4<0>, C4<0>, C4<0>;
+L_0x55693095f090 .functor BUFZ 2, v0x55693095e140_0, C4<00>, C4<00>, C4<00>;
+v0x55693095d980_0 .net "clock", 0 0, v0x55693095e080_0;  1 drivers
+v0x55693095da40_0 .net "inst_io_ready", 0 0, L_0x55693095eb70;  1 drivers
+v0x55693095db30_0 .net "inst_iosInner_0_ioin", 1 0, L_0x55693095f090;  1 drivers
+v0x55693095dc30_0 .net "inst_iosInner_0_ioout", 1 0, L_0x55693095ea70;  1 drivers
+v0x55693095dd00_0 .net "io_in", 1 0, v0x55693095e140_0;  1 drivers
+v0x55693095dda0_0 .net "io_out", 1 0, L_0x55693095ef00;  alias, 1 drivers
+v0x55693095de60_0 .net "io_valid", 0 0, L_0x55693095efb0;  alias, 1 drivers
+v0x55693095df20_0 .net "reset", 0 0, v0x55693095e3e0_0;  1 drivers
+S_0x5569309322f0 .scope module, "inst" "Precinct" 3 60, 3 16 0, S_0x556930932640;
+ .timescale 0 0;
+    .port_info 0 /INPUT 2 "iosInner_0_ioin"
+    .port_info 1 /OUTPUT 2 "iosInner_0_ioout"
+    .port_info 2 /OUTPUT 1 "io_ready"
+L_0x55693095ea70 .functor BUFZ 2, L_0x55693095e5a0, C4<00>, C4<00>, C4<00>;
+L_0x55693095eb70 .functor BUFZ 1, L_0x55693095e930, C4<0>, C4<0>, C4<0>;
+L_0x55693095ec50 .functor BUFZ 2, L_0x55693095f090, C4<00>, C4<00>, C4<00>;
+L_0x55693095ed30 .functor BUFZ 2, L_0x55693095f090, C4<00>, C4<00>, C4<00>;
+L_0x55693095edc0 .functor BUFZ 2, L_0x55693095e500, C4<00>, C4<00>, C4<00>;
+L_0x55693095ee30 .functor BUFZ 2, L_0x55693095e700, C4<00>, C4<00>, C4<00>;
+v0x55693095d020_0 .net "boe_io_in1", 1 0, L_0x55693095edc0;  1 drivers
+v0x55693095d0e0_0 .net "boe_io_in2", 1 0, L_0x55693095ee30;  1 drivers
+v0x55693095d1b0_0 .net "boe_io_out", 1 0, L_0x55693095e5a0;  1 drivers
+v0x55693095d2b0_0 .net "boe_io_valid", 0 0, L_0x55693095e930;  1 drivers
+v0x55693095d380_0 .net "io_ready", 0 0, L_0x55693095eb70;  alias, 1 drivers
+v0x55693095d470_0 .net "iosInner_0_ioin", 1 0, L_0x55693095f090;  alias, 1 drivers
+v0x55693095d510_0 .net "iosInner_0_ioout", 1 0, L_0x55693095ea70;  alias, 1 drivers
+v0x55693095d5f0_0 .net "mods_0_io_in", 1 0, L_0x55693095ec50;  1 drivers
+v0x55693095d6b0_0 .net "mods_0_io_out", 1 0, L_0x55693095e500;  1 drivers
+v0x55693095d780_0 .net "mods_1_io_in", 1 0, L_0x55693095ed30;  1 drivers
+v0x55693095d850_0 .net "mods_1_io_out", 1 0, L_0x55693095e700;  1 drivers
+S_0x556930931fa0 .scope module, "boe" "BOE" 3 37, 3 7 0, S_0x5569309322f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 2 "io_in1"
+    .port_info 1 /INPUT 2 "io_in2"
+    .port_info 2 /OUTPUT 2 "io_out"
+    .port_info 3 /OUTPUT 1 "io_valid"
+L_0x55693095e5a0 .functor BUFZ 2, L_0x55693095edc0, C4<00>, C4<00>, C4<00>;
+v0x556930931690_0 .net "io_in1", 1 0, L_0x55693095edc0;  alias, 1 drivers
+v0x55693095c3a0_0 .net "io_in2", 1 0, L_0x55693095ee30;  alias, 1 drivers
+v0x55693095c480_0 .net "io_out", 1 0, L_0x55693095e5a0;  alias, 1 drivers
+v0x55693095c540_0 .net "io_valid", 0 0, L_0x55693095e930;  alias, 1 drivers
+L_0x55693095e930 .cmp/eq 2, L_0x55693095edc0, L_0x55693095ee30;
+S_0x55693095c680 .scope module, "mods_0" "Simple" 3 29, 3 1 0, S_0x5569309322f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 2 "io_in"
+    .port_info 1 /OUTPUT 2 "io_out"
+L_0x7f8ad45e2018 .functor BUFT 1, C4<01>, C4<0>, C4<0>, C4<0>;
+v0x55693095c870_0 .net/2u *"_s0", 1 0, L_0x7f8ad45e2018;  1 drivers
+v0x55693095c970_0 .net "io_in", 1 0, L_0x55693095ec50;  alias, 1 drivers
+v0x55693095ca50_0 .net "io_out", 1 0, L_0x55693095e500;  alias, 1 drivers
+L_0x55693095e500 .arith/sum 2, L_0x55693095ec50, L_0x7f8ad45e2018;
+S_0x55693095cb70 .scope module, "mods_1" "Simple" 3 33, 3 1 0, S_0x5569309322f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 2 "io_in"
+    .port_info 1 /OUTPUT 2 "io_out"
+L_0x7f8ad45e2060 .functor BUFT 1, C4<01>, C4<0>, C4<0>, C4<0>;
+v0x55693095cd40_0 .net/2u *"_s0", 1 0, L_0x7f8ad45e2060;  1 drivers
+v0x55693095ce20_0 .net "io_in", 1 0, L_0x55693095ed30;  alias, 1 drivers
+v0x55693095cf00_0 .net "io_out", 1 0, L_0x55693095e700;  alias, 1 drivers
+L_0x55693095e700 .arith/sum 2, L_0x55693095ed30, L_0x7f8ad45e2060;
+    .scope S_0x556930933450;
+T_0 ;
+    %vpi_call 2 19 "$dumpfile", "wav.vcd" {0 0 0};
+    %vpi_call 2 20 "$dumpvars", 32'sb00000000000000000000000000000000, v0x55693095e210_0, v0x55693095e140_0, v0x55693095e310_0 {0 0 0};
+    %pushi/vec4 1, 0, 2;
+    %store/vec4 v0x55693095e140_0, 0, 2;
+    %delay 10, 0;
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "Demo_tb.v";
+    "./Demo.v";

@@ -1,0 +1,38 @@
+[
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~Demo|Demo>io_out",
+    "sources":[
+      "~Demo|Demo>io_in"
+    ]
+  },
+  {
+    "class":"firrtl.transforms.CombinationalPath",
+    "sink":"~Demo|Demo>io_valid",
+    "sources":[
+      "~Demo|Demo>io_in"
+    ]
+  },
+  {
+    "class":"logger.LogLevelAnnotation",
+    "globalLogLevel":{
+      
+    }
+  },
+  {
+    "class":"firrtl.options.TargetDirAnnotation",
+    "directory":"generated"
+  },
+  {
+    "class":"firrtl.EmitCircuitAnnotation",
+    "emitter":"firrtl.VerilogEmitter"
+  },
+  {
+    "class":"firrtl.options.OutputAnnotationFileAnnotation",
+    "file":"Demo"
+  },
+  {
+    "class":"firrtl.transforms.BlackBoxTargetDirAnno",
+    "targetDir":"generated"
+  }
+]
